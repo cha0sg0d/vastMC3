@@ -46,7 +46,7 @@ function getFreq (word, minDate, maxDate) {
 	maxFreq = Math.max(...Object.values(freq_places))
 	minFreq = Math.min(...Object.values(freq_places))
 
-	color = d3.scaleLinear().domain([minFreq, maxFreq]).range(["#FDF8FF", "firebrick"])
+	color = d3.scaleLinear().domain([minFreq, maxFreq]).range(["#FDF8FF", "orangered"])
 }
 
 Map.prototype.initVis = function(){

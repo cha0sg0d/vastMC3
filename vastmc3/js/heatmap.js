@@ -1,8 +1,8 @@
 var places = ["Broadview", "Chapparal", "Cheddarford", "Downtown", "East Parton", "Easton", "Northwest", "Oak Willow", "Old Town", "Palace Hills", "Pepper Mill", "Safe Town", "Scenic Vista", "Southton", "Southwest", "Terrapin Springs", "West Parton", "Weston", "Wilson Forest"]
 
 var TimeVars;
-var x;
-var y;
+// var x;
+// var y;
 var local_copy;
 var color;
 
@@ -42,13 +42,13 @@ heatMap.prototype.initVis = function(){
         }
 
     //Build X and Y axis
-    x = d3.scaleBand()
+    vis.x = d3.scaleBand()
         .range([ 0, vis.width ])
         .domain(TimeVars)
         .padding(0.01);
 
     vis.xAxis = d3.axisBottom()
-        .scale(x)
+        .scale(vis.x)
         .tickFormat(d3.timeFormat("%b %d, %I %p"))
 
     vis.svg.append("g")
@@ -63,12 +63,12 @@ heatMap.prototype.initVis = function(){
             .attr("dy", ".15em")
             .attr("transform", "rotate(-65)" );
 
-    y = d3.scaleBand()
+    vis.y = d3.scaleBand()
         .range([ vis.height, 0 ])
         .domain(Neighborhoods)
         .padding(0.01);
     vis.svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(vis.y));
 
     vis.svg.selectAll()
         .data(res, function(d) {
@@ -76,10 +76,10 @@ heatMap.prototype.initVis = function(){
             return d.location+':'+d.time;})
         .enter()
         .append("rect")
-        .attr("x", function(d) { return x(d.time) })
-        .attr("y", function(d) { return y(d.location) })
-        .attr("width", x.bandwidth() )
-        .attr("height", y.bandwidth() )
+        .attr("x", function(d) { return vis.x(d.time) })
+        .attr("y", function(d) { return vis.y(d.location) })
+        .attr("width", vis.x.bandwidth() )
+        .attr("height", vis.y.bandwidth() )
         .style("fill", function(d) {
             return color(d.value)} )
 
@@ -89,8 +89,6 @@ heatMap.prototype.initVis = function(){
 heatMap.prototype.updateMap = function(query_word, minDate, maxDate){
 
     var vis = this;
-    // console.log(d3.select(vis.svg))
-    // vis.svg.remove()
 
     res = findFreq(query_word,minDate,maxDate)
     var newDomain = ((maxDate - minDate) / 3600000) + 1;
@@ -101,7 +99,7 @@ heatMap.prototype.updateMap = function(query_word, minDate, maxDate){
     }
 
     //CHANGE AXIS
-    x = d3.scaleBand()
+    vis.x = d3.scaleBand()
         .range([0, vis.width])
         .domain(TimeVars)
         .padding(.01)
@@ -110,7 +108,7 @@ heatMap.prototype.updateMap = function(query_word, minDate, maxDate){
     .attr("transform", "translate(0," + vis.height + ")")
 
     vis.xAxis = d3.axisBottom()
-        .scale(x)
+        .scale(vis.x)
         .tickFormat(d3.timeFormat("%b %d, %I %p"))
 
     vis.svg.append("g")
@@ -133,10 +131,10 @@ heatMap.prototype.updateMap = function(query_word, minDate, maxDate){
             return d.location+':'+d.time;})
         .enter()
         .append("rect")
-        .attr("x", function(d) { return x(d.time) })
-        .attr("y", function(d) { return y(d.location) })
-        .attr("width", x.bandwidth())
-        .attr("height", y.bandwidth())
+        .attr("x", function(d) { return vis.x(d.time) })
+        .attr("y", function(d) { return vis.y(d.location) })
+        .attr("width", vis.x.bandwidth())
+        .attr("height", vis.y.bandwidth())
         .style("fill", function(d){
             return color(d.value);
         })
@@ -204,7 +202,7 @@ function findFreq(query_word,minDate,maxDate) {
 
     //Build Color Scale
     color = d3.scaleLinear()
-    .range(["#FDF8FF", "firebrick"])
+    .range(["#FDF8FF", "orangered"])
     .domain([minFreq,maxFreq])
 
     res = heatDataJSON(heat)
