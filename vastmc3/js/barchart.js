@@ -6,22 +6,49 @@ var data;
 var barMouseover;
 var barMouseout;
 
-function findRT(minDate,maxDate) {
-  var local_dict = {}
-  for (var i = minDate; i <= maxDate; i+=3600000) {
-      var curr = rts[i];
-      if(curr != null){
-          curr.forEach(function(tweet) {
-              if (local_dict[tweet["message"]] == null) {
-                local_dict[tweet["message"]] = tweet["value"]
-              }
-              else {
-                local_dict[tweet["message"]] += tweet["value"]
-                //console.log("new value is: ",local_dict[tweet["message"]])
-              }
-          })
-      }
-  }
+// query_word is a list
+function findRT(query_word,minDate,maxDate) {
+    console.log(query_word)
+    var local_dict = {}
+    for (var i = minDate; i <= maxDate; i+=3600000) {
+        var curr = rts[i];
+        if(curr != null){
+            curr.forEach(function(tweet) {
+                if (query_word == ""){
+                      if (local_dict[tweet["message"]] == null) {
+                        local_dict[tweet["message"]] = tweet["value"]
+                      }
+                      else {
+                        local_dict[tweet["message"]] += tweet["value"]
+                        //console.log("new value is: ",local_dict[tweet["message"]])
+                      }
+                } 
+                else {
+                    query_word.forEach(function(word){
+                        if (tweet["message"].includes(word)) {
+                            if (local_dict[tweet["message"]] == null) {
+                                local_dict[tweet["message"]] = tweet["value"]
+                            }
+                            else {
+                                local_dict[tweet["message"]] += tweet["value"]
+                            }
+                        }
+
+                    })
+                }
+            })
+        }
+    }
+
+
+              // if (local_dict[tweet["message"]] == null) {
+              //   local_dict[tweet["message"]] = tweet["value"]
+              // }
+              // else {
+              //   local_dict[tweet["message"]] += tweet["value"]
+              //   //console.log("new value is: ",local_dict[tweet["message"]])
+              // }
+
 
   //console.log("local:",local_dict)
 
@@ -49,7 +76,7 @@ barChart.prototype.initVis = function(){
     
     var vis = this;
 
-    findRT(1586131200000,1586520000000)
+    findRT("",1586131200000,1586520000000)
 
     vis.margin = {top: 20, right: 20, bottom: 30, left: 40},
         vis.width = 500 - vis.margin.left - vis.margin.right,
@@ -141,11 +168,11 @@ barChart.prototype.initVis = function(){
 
 }
 
-barChart.prototype.updateChart = function(minDate, maxDate){
+barChart.prototype.updateChart = function(query_word,minDate, maxDate){
 
     var vis = this;
 
-    findRT(minDate, maxDate)
+    findRT(query_word,minDate, maxDate)
     console.log(data)
 
     vis.x.domain([minDate,maxDate]);
