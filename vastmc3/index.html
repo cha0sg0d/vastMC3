@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Y*Int Analysis for Resource Allocation</title>
+
+	<!-- Load Google Font -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,400italic,700' rel='stylesheet' type='text/css'>
+
+	<!-- CSS libraries -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+<!-- 	<link href="css/nouislider.min.css" rel="stylesheet">
+ -->
+
+	<!-- Custom CSS code -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<div class="container-fluid">
+
+	<div class="row" id="title">
+			<h1>St. Himark's Disaster Response Platform</h1>
+			<h2>Search for a keyword(s)</h2>			
+	</div>
+
+	<div class= "row" id="form">
+  		Word: <input type="text" name="new_word" id="new_word" onkeypress="return loadWord(event)"><button type="button" onclick="return clearWord()">Clear</button><br>
+  	<div id= "keyword">
+	</div>
+	</div>
+
+	<div class="col-md-12">
+
+		<div id="heatmap">
+		</div>
+
+	</div>
+
+	<div class="row">
+	<div id="slider"></div>
+	</div>
+
+	<div class="row">
+	<div class="col-md-6">
+			
+		<div class="row" id="map">
+		</div>
+
+	</div>
+
+	<div class="col-md-6" id="retweets">
+		<h3>Pulse Data / Retweets</h3>
+	</div>
+	</div>
+
+	</div>
+
+
+<script type="text/javascript">
+
+</script>
+
+	<!-- Load JS libraries -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/d3.js"></script>
+
+	<!-- Visualization objects -->
+	<script src="js/map.js"></script>
+	<script src="js/heatmap.js"></script>
+
+	<!-- TIME SLIDER -->
+	<script src="https://unpkg.com/d3-simple-slider"></script>
+
+	<!-- Load data, create visualizations -->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
