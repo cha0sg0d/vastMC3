@@ -1,0 +1,1 @@
+<?php header( 'Location: vastmc3/index.html' ) ;  ?>
